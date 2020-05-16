@@ -4,7 +4,19 @@
 //
 // import User from 'path/to/interfaces';
 
-export type User = {
-  id: number
-  name: string
+export interface Word {
+  slug: string;
+  name: string;
+  description: string;
+}
+
+export interface WordLinkProps {
+  slug: string;
+  label: string;
+}
+
+export interface TagInfo {
+  tag: 'span' | 'link';
+  slug?: string;
+  outerText: string;
 }

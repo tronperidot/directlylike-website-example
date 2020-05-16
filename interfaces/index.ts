@@ -18,5 +18,5 @@ export interface WordLinkProps {
 export interface TagInfo {
   tag: 'span' | 'link';
   slug?: string;
-  outerText: string;
+  innerText: string;
 }

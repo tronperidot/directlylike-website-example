@@ -18,8 +18,8 @@ export default class StaticPropsDetail extends React.Component<Props> {
       <Layout title={name}>
         <h1>{name}</h1>
         <div>{contents.map((content) => {
-          if (content.tag === 'span') return (<span>{content.outerText}</span>)
-          if (content.tag === 'link') return (<WordLink word={{ slug: content.slug!, label: content.outerText }} />)
+          if (content.tag === 'span') return (<span>{content.innerText}</span>)
+          if (content.tag === 'link') return (<WordLink word={{ slug: content.slug!, label: content.innerText }} />)
         })}</div>
       </Layout>
     )
@@ -47,12 +47,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const contents = words.reduce((prev, word) => {
       const items = prev.map((info) => {
         if (info.tag === 'link') return info
-        const descriptions = info.outerText.split(word.name)
+        const descriptions = info.innerText.split(word.name)
         const tagItems = parseToTagBlock(descriptions, word)
         return tagItems
       })
       return Array.prototype.concat.apply([], items)
-    }, [{ tag: 'span', outerText: item?.description }] as TagInfo[])
+    }, [{ tag: 'span', innerText: item?.description }] as TagInfo[])
 
     return { props: { name: item?.name, contents } }
   } catch (err) {
@@ -62,9 +62,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 const parseToTagBlock = (descriptions: string[], word: Word) => (
   descriptions.reduce((prev, text, idx) => {
-    prev.push({ tag: 'span', outerText: text });
+    prev.push({ tag: 'span', innerText: text });
     if (idx <= descriptions.length - 2) {
-      prev.push({ tag: 'link', outerText: word.name, slug: word.slug });
+      prev.push({ tag: 'link', innerText: word.name, slug: word.slug });
     }
     return prev;
   }, [] as TagInfo[])
